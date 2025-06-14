@@ -7,6 +7,7 @@ import '../../providers/auth_provider.dart';
 import '../../models/avatar.dart';
 import '../../widgets/common/avatar_widget.dart';
 import '../../widgets/common/loading_indicator.dart';
+import '../../config/api_endpoints.dart';
 
 /// 头像选择页面
 class AvatarSelectionScreen extends StatefulWidget {
@@ -28,7 +29,10 @@ class _AvatarSelectionScreenState extends State<AvatarSelectionScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _loadSystemAvatars();
+    // 延迟到下一帧执行，避免在build过程中调用setState
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadSystemAvatars();
+    });
   }
 
   @override
@@ -131,7 +135,7 @@ class _AvatarSelectionScreenState extends State<AvatarSelectionScreen>
                 ),
                 child: ClipOval(
                   child: Image.network(
-                    systemAvatar.url,
+                    ApiEndpoints.buildImageUrl(systemAvatar.url),
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(

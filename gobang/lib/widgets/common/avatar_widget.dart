@@ -50,11 +50,7 @@ class AvatarWidget extends StatelessWidget {
     // 如果有头像URL，显示网络图片
     if (avatar?.url != null && avatar!.url.isNotEmpty) {
       // 处理URL路径
-      String imageUrl = avatar!.url;
-      if (imageUrl.startsWith('/') && !imageUrl.startsWith('http')) {
-        final serverRoot = ApiEndpoints.baseUrl.replaceAll('/api', '');
-        imageUrl = '$serverRoot$imageUrl';
-      }
+      String imageUrl = ApiEndpoints.buildImageUrl(avatar!.url);
       
       return Image.network(
         imageUrl,

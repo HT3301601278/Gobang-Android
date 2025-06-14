@@ -33,4 +33,12 @@ class ApiEndpoints {
   static String getFullUrl(String endpoint) {
     return '$baseUrl$endpoint';
   }
+
+  // 构建图片URL（处理相对路径）
+  static String buildImageUrl(String url) {
+    if (url.startsWith('/') && !url.startsWith('http')) {
+      return '$serverRootUrl$url';
+    }
+    return url;
+  }
 }

@@ -20,7 +20,10 @@ class _QuickPhrasesScreenState extends State<QuickPhrasesScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _loadQuickPhrases();
+    // 延迟到下一帧执行，避免在build过程中调用setState
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadQuickPhrases();
+    });
   }
 
   @override

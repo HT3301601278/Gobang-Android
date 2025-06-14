@@ -15,7 +15,10 @@ class _StatsScreenState extends State<StatsScreen> {
   @override
   void initState() {
     super.initState();
-    _loadStats();
+    // 延迟到下一帧执行，避免在build过程中调用setState
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadStats();
+    });
   }
 
   Future<void> _loadStats() async {
