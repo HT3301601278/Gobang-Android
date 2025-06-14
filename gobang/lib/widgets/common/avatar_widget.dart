@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/avatar.dart';
+import '../../config/api_endpoints.dart';
 
 /// 头像组件
 class AvatarWidget extends StatelessWidget {
@@ -48,8 +49,15 @@ class AvatarWidget extends StatelessWidget {
   Widget _buildAvatarContent(BuildContext context) {
     // 如果有头像URL，显示网络图片
     if (avatar?.url != null && avatar!.url.isNotEmpty) {
+      // 处理URL路径
+      String imageUrl = avatar!.url;
+      if (imageUrl.startsWith('/') && !imageUrl.startsWith('http')) {
+        final serverRoot = ApiEndpoints.baseUrl.replaceAll('/api', '');
+        imageUrl = '$serverRoot$imageUrl';
+      }
+      
       return Image.network(
-        avatar!.url,
+        imageUrl,
         width: size,
         height: size,
         fit: BoxFit.cover,

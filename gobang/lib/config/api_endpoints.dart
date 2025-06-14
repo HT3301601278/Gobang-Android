@@ -2,6 +2,7 @@
 class ApiEndpoints {
   // 基础URL - 根据实际后端地址修改
   static const String baseUrl = 'http://10.0.2.2:3000/api';
+  static const String serverRootUrl = 'http://10.0.2.2:3000';
 
   // 认证相关端点
   static const String register = '/auth/register';
