@@ -34,12 +34,6 @@ class _ProfileTabState extends State<ProfileTab> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('个人资料'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () => _navigateToEditProfile(),
-          ),
-        ],
       ),
       body: Consumer2<AuthProvider, UserProvider>(
         builder: (context, authProvider, userProvider, child) {
