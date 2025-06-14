@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'config/app_config.dart';
 import 'providers/auth_provider.dart';
+import 'providers/user_provider.dart';
 import 'screens/splash_screen.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/register_screen.dart';
 import 'screens/auth/forgot_password_screen.dart';
 import 'screens/auth/reset_password_screen.dart';
+import 'screens/home/home_screen.dart';
 import 'theme/app_theme.dart';
 import 'utils/constants.dart';
 import 'services/api/api_client.dart';
@@ -20,6 +22,7 @@ class GobangApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MaterialApp(
         title: AppConfig.appName,
@@ -36,7 +39,7 @@ class GobangApp extends StatelessWidget {
           Constants.registerRoute: (context) => const RegisterScreen(),
           Constants.forgotPasswordRoute: (context) => const ForgotPasswordScreen(),
           Constants.resetPasswordRoute: (context) => const ResetPasswordScreen(),
-          Constants.homeRoute: (context) => const _PlaceholderHomeScreen(),
+          Constants.homeRoute: (context) => const HomeScreen(),
         },
         
         // 路由生成器（用于处理未定义的路由）
@@ -55,75 +58,6 @@ class GobangApp extends StatelessWidget {
           ApiClient().init();
           
           return child ?? const SizedBox.shrink();
-        },
-      ),
-    );
-  }
-}
-
-/// 占位符主页面（临时使用）
-class _PlaceholderHomeScreen extends StatelessWidget {
-  const _PlaceholderHomeScreen();
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('五子棋'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              final authProvider = Provider.of<AuthProvider>(context, listen: false);
-              await authProvider.logout();
-              if (context.mounted) {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  Constants.loginRoute,
-                  (route) => false,
-                );
-              }
-            },
-          ),
-        ],
-      ),
-      body: Consumer<AuthProvider>(
-        builder: (context, authProvider, child) {
-          final user = authProvider.user;
-          
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.grid_on,
-                  size: 80,
-                  color: Colors.blue,
-                ),
-                const SizedBox(height: 24),
-                const Text(
-                  '欢迎来到五子棋',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                if (user != null) ...[
-                  Text('用户名: ${user.username}'),
-                  Text('昵称: ${user.nickname}'),
-                  Text('邮箱: ${user.email}'),
-                ],
-                const SizedBox(height: 32),
-                const Text(
-                  '主页面功能正在开发中...',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
-                ),
-              ],
-            ),
-          );
         },
       ),
     );

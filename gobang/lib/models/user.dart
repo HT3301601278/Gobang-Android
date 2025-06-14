@@ -1,50 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'avatar.dart';
+import 'user_stats.dart';
 
 part 'user.g.dart';
-
-/// 头像模型
-@JsonSerializable()
-class Avatar {
-  @JsonKey(name: 'type')
-  final String type;
-
-  @JsonKey(name: 'url')
-  final String url;
-
-  const Avatar({
-    required this.type,
-    required this.url,
-  });
-
-  /// 从JSON创建Avatar对象
-  factory Avatar.fromJson(Map<String, dynamic> json) => _$AvatarFromJson(json);
-
-  /// 转换为JSON
-  Map<String, dynamic> toJson() => _$AvatarToJson(this);
-
-  /// 复制并修改部分字段
-  Avatar copyWith({
-    String? type,
-    String? url,
-  }) {
-    return Avatar(
-      type: type ?? this.type,
-      url: url ?? this.url,
-    );
-  }
-
-  @override
-  String toString() => 'Avatar(type: $type, url: $url)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    return other is Avatar && other.type == type && other.url == url;
-  }
-
-  @override
-  int get hashCode => type.hashCode ^ url.hashCode;
-}
 
 /// 用户模型
 @JsonSerializable()
@@ -69,7 +27,13 @@ class User {
 
   @JsonKey(name: 'updatedAt')
   final DateTime? updatedAt;
-  
+
+  @JsonKey(name: 'stats')
+  final UserStats? stats;
+
+  @JsonKey(name: 'online')
+  final bool? online;
+
   const User({
     required this.userId,
     required this.username,
@@ -78,6 +42,8 @@ class User {
     this.avatar,
     this.createdAt,
     this.updatedAt,
+    this.stats,
+    this.online,
   });
 
   /// 从JSON创建User对象
@@ -95,6 +61,8 @@ class User {
     Avatar? avatar,
     DateTime? createdAt,
     DateTime? updatedAt,
+    UserStats? stats,
+    bool? online,
   }) {
     return User(
       userId: userId ?? this.userId,
@@ -104,6 +72,8 @@ class User {
       avatar: avatar ?? this.avatar,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      stats: stats ?? this.stats,
+      online: online ?? this.online,
     );
   }
   
@@ -118,7 +88,9 @@ class User {
         other.email == email &&
         other.avatar == avatar &&
         other.createdAt == createdAt &&
-        other.updatedAt == updatedAt;
+        other.updatedAt == updatedAt &&
+        other.stats == stats &&
+        other.online == online;
   }
   
   @override
@@ -129,12 +101,14 @@ class User {
         email.hashCode ^
         avatar.hashCode ^
         createdAt.hashCode ^
-        updatedAt.hashCode;
+        updatedAt.hashCode ^
+        stats.hashCode ^
+        online.hashCode;
   }
   
   @override
   String toString() {
-    return 'User(userId: $userId, username: $username, nickname: $nickname, email: $email, avatar: $avatar, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'User(userId: $userId, username: $username, nickname: $nickname, email: $email, avatar: $avatar, createdAt: $createdAt, updatedAt: $updatedAt, stats: $stats, online: $online)';
   }
 }
 
