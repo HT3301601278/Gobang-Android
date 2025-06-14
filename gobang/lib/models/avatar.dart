@@ -5,14 +5,10 @@ part 'avatar.g.dart';
 /// 头像模型
 @JsonSerializable()
 class Avatar {
-  @JsonKey(name: 'type')
-  final String type;
-
   @JsonKey(name: 'url')
   final String url;
 
   const Avatar({
-    required this.type,
     required this.url,
   });
 
@@ -24,26 +20,24 @@ class Avatar {
 
   /// 复制并修改部分字段
   Avatar copyWith({
-    String? type,
     String? url,
   }) {
     return Avatar(
-      type: type ?? this.type,
       url: url ?? this.url,
     );
   }
 
   @override
-  String toString() => 'Avatar(type: $type, url: $url)';
+  String toString() => 'Avatar(url: $url)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is Avatar && other.type == type && other.url == url;
+    return other is Avatar && other.url == url;
   }
 
   @override
-  int get hashCode => type.hashCode ^ url.hashCode;
+  int get hashCode => url.hashCode;
 }
 
 /// 系统头像模型

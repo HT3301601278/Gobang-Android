@@ -74,7 +74,7 @@ class UserProvider extends ChangeNotifier {
   /// 更新用户资料
   Future<bool> updateProfile({
     String? nickname,
-    Map<String, dynamic>? avatar,
+    Avatar? avatar,
   }) async {
     _setUpdatingProfile(true);
     _clearError();

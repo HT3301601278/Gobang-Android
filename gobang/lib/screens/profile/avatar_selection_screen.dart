@@ -268,17 +268,16 @@ class _AvatarSelectionScreenState extends State<AvatarSelectionScreen>
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     
     bool success = false;
-    Map<String, dynamic>? avatarData;
+    Avatar? avatarData;
 
     if (_selectedSystemAvatarId != null) {
       // 使用系统头像
       final systemAvatar = userProvider.systemAvatars
           .firstWhere((avatar) => avatar.id == _selectedSystemAvatarId);
       
-      avatarData = {
-        'type': 'system',
-        'url': systemAvatar.url,
-      };
+      avatarData = Avatar(
+        url: systemAvatar.url,
+      );
       
       success = await userProvider.updateProfile(avatar: avatarData);
     } else if (_selectedCustomAvatar != null) {
@@ -286,10 +285,9 @@ class _AvatarSelectionScreenState extends State<AvatarSelectionScreen>
       final avatarUrl = await userProvider.uploadAvatar(_selectedCustomAvatar!);
       
       if (avatarUrl != null) {
-        avatarData = {
-          'type': 'custom',
-          'url': avatarUrl,
-        };
+        avatarData = Avatar(
+          url: avatarUrl,
+        );
         
         success = await userProvider.updateProfile(avatar: avatarData);
       }

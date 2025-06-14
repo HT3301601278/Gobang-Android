@@ -1,12 +1,13 @@
 import '../../config/api_endpoints.dart';
 import '../../models/user.dart';
 import '../../models/user_stats.dart';
+import '../../models/avatar.dart';
 import 'api_client.dart';
 
 /// 用户资料更新请求
 class UpdateProfileRequest {
   final String? nickname;
-  final Map<String, dynamic>? avatar;
+  final Avatar? avatar;
 
   const UpdateProfileRequest({
     this.nickname,
@@ -16,7 +17,7 @@ class UpdateProfileRequest {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     if (nickname != null) data['nickname'] = nickname;
-    if (avatar != null) data['avatar'] = avatar;
+    if (avatar != null) data['avatar'] = avatar!.toJson();
     return data;
   }
 }

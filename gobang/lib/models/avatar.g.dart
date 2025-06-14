@@ -7,10 +7,9 @@ part of 'avatar.dart';
 // **************************************************************************
 
 Avatar _$AvatarFromJson(Map<String, dynamic> json) =>
-    Avatar(type: json['type'] as String, url: json['url'] as String);
+    Avatar(url: json['url'] as String);
 
 Map<String, dynamic> _$AvatarToJson(Avatar instance) => <String, dynamic>{
-  'type': instance.type,
   'url': instance.url,
 };
 
